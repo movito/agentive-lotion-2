@@ -40,19 +40,19 @@ if [[ -f "$PROJECT_ROOT/.env" ]]; then
     fi
 fi
 
-# Check for rem agent
-REM_AGENT="$CLAUDE_AGENTS_DIR/rem.md"
-if [[ ! -f "$REM_AGENT" ]]; then
-    echo -e "${RED}Error: rem agent not found at $REM_AGENT${NC}"
+# Check for onboarding agent
+ONBOARDING_AGENT="$CLAUDE_AGENTS_DIR/onboarding.md"
+if [[ ! -f "$ONBOARDING_AGENT" ]]; then
+    echo -e "${RED}Error: onboarding agent not found at $ONBOARDING_AGENT${NC}"
     exit 1
 fi
 
-# Read rem agent content
-REM_CONTENT=$(cat "$REM_AGENT")
+# Read onboarding agent content
+ONBOARDING_CONTENT=$(cat "$ONBOARDING_AGENT")
 
-# Get model from rem.md frontmatter
-REM_MODEL=$(sed -n '/^---$/,/^---$/p' "$REM_AGENT" | sed '1d;$d' | grep "^model:" | sed "s/^model:[[:space:]]*//" | tr -d '"')
-REM_MODEL="${REM_MODEL:-claude-opus-4-5-20251101}"
+# Get model from onboarding.md frontmatter
+ONBOARDING_MODEL=$(sed -n '/^---$/,/^---$/p' "$ONBOARDING_AGENT" | sed '1d;$d' | grep "^model:" | sed "s/^model:[[:space:]]*//" | tr -d '"')
+ONBOARDING_MODEL="${ONBOARDING_MODEL:-claude-sonnet-4-20250514}"
 
 # Create onboarding state file
 ONBOARDING_STATE="$PROJECT_ROOT/.agent-context/ONBOARDING-STATE.md"
@@ -88,46 +88,28 @@ sed -i '' "s/\$(date +%Y-%m-%d)/$(date +%Y-%m-%d)/" "$ONBOARDING_STATE" 2>/dev/n
     sed -i "s/\$(date +%Y-%m-%d)/$(date +%Y-%m-%d)/" "$ONBOARDING_STATE"
 
 echo -e "${GREEN}Project:${NC} $PROJECT_NAME"
-echo -e "${GREEN}Agent:${NC} rem (coordinator)"
-echo -e "${GREEN}Model:${NC} $REM_MODEL"
+echo -e "${GREEN}Agent:${NC} onboarding (setup specialist)"
+echo -e "${GREEN}Model:${NC} $ONBOARDING_MODEL"
 echo
 
 # Build first-run context
 FIRST_RUN_CONTEXT="
-🆕 **FIRST-RUN ONBOARDING ACTIVE**
+**FIRST-RUN ONBOARDING ACTIVE**
 
-This is a NEW PROJECT from the agentive-starter-kit that needs configuration.
-
-**Project Context:**
+Project Context:
 - Directory: $PROJECT_NAME
 - Location: $PROJECT_ROOT
 - Status: No .env file (unconfigured)
 - Onboarding state: $ONBOARDING_STATE
 
-**Your Mission:**
-Begin the interactive onboarding flow immediately. Guide the user through all 6 phases:
-
-1. **Phase 1**: Project name & task prefix
-2. **Phase 2**: Language selection (for Serena LSP)
-3. **Phase 3**: API keys (Anthropic, OpenAI, Linear)
-4. **Phase 4**: Feature selection
-5. **Phase 5**: Agent customization
-6. **Phase 6**: First task creation
-
-**Important:**
-- Create .env from .env.template once configuration is complete
-- Update .agent-context/current-state.json with project details
-- Update ONBOARDING-STATE.md as each phase completes
-- After onboarding, user should use ./agents/launch for regular access
-
-Start with a friendly welcome and Phase 1 immediately.
+Begin the interactive onboarding flow immediately. Start with Phase 1 (Welcome).
 "
 
-echo -e "${BLUE}Launching rem for onboarding...${NC}"
+echo -e "${BLUE}Launching onboarding agent...${NC}"
 echo
 
 # Change to project directory
 cd "$PROJECT_ROOT"
 
-# Launch Claude with rem agent + first-run context
-exec claude --model "$REM_MODEL" --append-system-prompt "$REM_CONTENT" "$FIRST_RUN_CONTEXT"
+# Launch Claude with onboarding agent + first-run context
+exec claude --model "$ONBOARDING_MODEL" --append-system-prompt "$ONBOARDING_CONTENT" "$FIRST_RUN_CONTEXT"
