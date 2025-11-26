@@ -1,0 +1,133 @@
+#!/bin/bash
+
+# Agentive Starter Kit - First-Run Onboarding
+# Launches rem with full context for new project setup
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+CLAUDE_AGENTS_DIR="$PROJECT_ROOT/.claude/agents"
+PROJECT_NAME=$(basename "$PROJECT_ROOT")
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# Display welcome banner
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                                                                ║${NC}"
+echo -e "${CYAN}║   ${GREEN}🚀 Agentive Starter Kit - First-Run Onboarding${CYAN}              ║${NC}"
+echo -e "${CYAN}║                                                                ║${NC}"
+echo -e "${CYAN}║   ${NC}Welcome! This will configure your new agentive project.${CYAN}      ║${NC}"
+echo -e "${CYAN}║   ${NC}rem (your coordinator agent) will guide you through setup.${CYAN}   ║${NC}"
+echo -e "${CYAN}║                                                                ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
+echo
+
+# Check if already configured
+if [[ -f "$PROJECT_ROOT/.env" ]]; then
+    echo -e "${YELLOW}Note: .env file already exists.${NC}"
+    echo -e "If you want to re-run onboarding, remove .env first:"
+    echo -e "  rm .env"
+    echo
+    read -p "Continue anyway? (y/N): " confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        echo -e "${BLUE}Use ./agents/launch for regular agent access.${NC}"
+        exit 0
+    fi
+fi
+
+# Check for rem agent
+REM_AGENT="$CLAUDE_AGENTS_DIR/rem.md"
+if [[ ! -f "$REM_AGENT" ]]; then
+    echo -e "${RED}Error: rem agent not found at $REM_AGENT${NC}"
+    exit 1
+fi
+
+# Read rem agent content
+REM_CONTENT=$(cat "$REM_AGENT")
+
+# Get model from rem.md frontmatter
+REM_MODEL=$(sed -n '/^---$/,/^---$/p' "$REM_AGENT" | sed '1d;$d' | grep "^model:" | sed "s/^model:[[:space:]]*//" | tr -d '"')
+REM_MODEL="${REM_MODEL:-claude-opus-4-5-20251101}"
+
+# Create onboarding state file
+ONBOARDING_STATE="$PROJECT_ROOT/.agent-context/ONBOARDING-STATE.md"
+cat > "$ONBOARDING_STATE" << 'EOF'
+# Onboarding State
+
+**Status**: In Progress
+**Started**: $(date +%Y-%m-%d)
+
+## Checklist
+
+- [ ] Phase 1: Project name configured
+- [ ] Phase 2: Languages selected
+- [ ] Phase 3: API keys configured
+- [ ] Phase 4: Features selected
+- [ ] Phase 5: Agents customized
+- [ ] Phase 6: First task created
+
+## Configuration
+
+- Project Name: (pending)
+- Languages: (pending)
+- Task Prefix: (pending)
+- Linear Integration: (pending)
+- Serena MCP: (pending)
+
+---
+*This file tracks onboarding progress. Delete after completion.*
+EOF
+
+# Replace the date placeholder
+sed -i '' "s/\$(date +%Y-%m-%d)/$(date +%Y-%m-%d)/" "$ONBOARDING_STATE" 2>/dev/null || \
+    sed -i "s/\$(date +%Y-%m-%d)/$(date +%Y-%m-%d)/" "$ONBOARDING_STATE"
+
+echo -e "${GREEN}Project:${NC} $PROJECT_NAME"
+echo -e "${GREEN}Agent:${NC} rem (coordinator)"
+echo -e "${GREEN}Model:${NC} $REM_MODEL"
+echo
+
+# Build first-run context
+FIRST_RUN_CONTEXT="
+🆕 **FIRST-RUN ONBOARDING ACTIVE**
+
+This is a NEW PROJECT from the agentive-starter-kit that needs configuration.
+
+**Project Context:**
+- Directory: $PROJECT_NAME
+- Location: $PROJECT_ROOT
+- Status: No .env file (unconfigured)
+- Onboarding state: $ONBOARDING_STATE
+
+**Your Mission:**
+Begin the interactive onboarding flow immediately. Guide the user through all 6 phases:
+
+1. **Phase 1**: Project name & task prefix
+2. **Phase 2**: Language selection (for Serena LSP)
+3. **Phase 3**: API keys (Anthropic, OpenAI, Linear)
+4. **Phase 4**: Feature selection
+5. **Phase 5**: Agent customization
+6. **Phase 6**: First task creation
+
+**Important:**
+- Create .env from .env.template once configuration is complete
+- Update .agent-context/current-state.json with project details
+- Update ONBOARDING-STATE.md as each phase completes
+- After onboarding, user should use ./agents/launch for regular access
+
+Start with a friendly welcome and Phase 1 immediately.
+"
+
+echo -e "${BLUE}Launching rem for onboarding...${NC}"
+echo
+
+# Change to project directory
+cd "$PROJECT_ROOT"
+
+# Launch Claude with rem agent + first-run context
+exec claude --model "$REM_MODEL" --append-system-prompt "$REM_CONTENT" "$FIRST_RUN_CONTEXT"

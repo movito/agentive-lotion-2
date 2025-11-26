@@ -32,10 +32,10 @@ git clone https://github.com/movito/agentive-starter-kit.git my-project
 cd my-project
 ```
 
-### 2. Launch the Setup Agent
+### 2. Run First-Time Onboarding
 
 ```bash
-./scripts/launch rem
+./agents/onboarding
 ```
 
 ### 3. Follow Interactive Setup
@@ -146,16 +146,23 @@ Copy `.adversarial/config.yml.template` to `.adversarial/config.yml`.
 
 ## Usage
 
-### Launching Agents
+### First-Time Setup
+
+```bash
+# Run onboarding (first time only)
+./agents/onboarding
+```
+
+### Launching Agents (After Setup)
 
 ```bash
 # Interactive menu
-./scripts/launch
+./agents/launch
 
 # Launch specific agent
-./scripts/launch rem
-./scripts/launch feature-developer
-./scripts/launch test-runner
+./agents/launch rem
+./agents/launch feature-developer
+./agents/launch test-runner
 ```
 
 ### Creating Tasks
@@ -213,8 +220,9 @@ your-project/
 │   ├── agentive-development/# Complete methodology guide
 │   ├── decisions/adr/       # Architectural Decision Records
 │   └── prd/                 # Product Requirements Documents
-├── scripts/
-│   └── launch               # Agent launcher
+├── agents/
+│   ├── launch               # Agent launcher (interactive menu)
+│   └── onboarding           # First-run setup (run once)
 ├── tests/                   # Test suite
 ├── .env                     # Environment variables (git-ignored)
 ├── .pre-commit-config.yaml  # Pre-commit hooks

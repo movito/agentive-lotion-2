@@ -34,10 +34,10 @@ Before you begin, ensure you have:
 
 ### Option A: Interactive Setup (Recommended)
 
-Launch the `rem` agent to guide you through setup:
+Run the onboarding script to launch `rem` with full setup context:
 
 ```bash
-./scripts/launch rem
+./agents/onboarding
 ```
 
 `rem` will help you:
@@ -115,7 +115,7 @@ pre-commit install
 
 ```bash
 # Test agent launcher
-./scripts/launch help
+./agents/launch help
 
 # Test pre-commit hooks
 git commit --allow-empty -m "Test hooks"
@@ -231,8 +231,8 @@ xcrun sourcekit-lsp --help
 After setup, verify each component:
 
 ### Agents
-- [ ] `./scripts/launch` shows agent menu
-- [ ] `./scripts/launch rem` starts rem agent
+- [ ] `./agents/launch` shows agent menu
+- [ ] `./agents/launch rem` starts rem agent
 - [ ] Serena activates when agent starts
 
 ### Task Management
@@ -258,8 +258,8 @@ After setup, verify each component:
 # Check Claude Code is installed
 claude --version
 
-# Verify launch script is executable
-chmod +x scripts/launch
+# Verify launch scripts are executable
+chmod +x agents/launch agents/onboarding
 ```
 
 ### Serena won't activate
