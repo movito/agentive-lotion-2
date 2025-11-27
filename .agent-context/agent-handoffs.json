@@ -9,11 +9,11 @@
     "previous_session": ".agent-context/2025-11-27-SESSION-HANDOVER.md"
   },
   "feature-developer": {
-    "status": "assigned",
+    "status": "completed",
     "current_task": "AL2-0001",
-    "task_started": null,
-    "brief_note": "ASSIGNED: CI/CD and TDD Infrastructure Setup (foundational, blocks Phase 1)",
-    "details_link": "delegation/tasks/2-todo/AL2-0001-ci-cd-tdd-setup.md",
+    "task_started": "2025-11-27",
+    "brief_note": "✅ COMPLETE: CI/CD and TDD Infrastructure Setup. pyproject.toml, pytest, pre-commit, GitHub Actions CI all working. Smoke tests pass. 20 tests, <1s runtime.",
+    "details_link": "delegation/tasks/5-done/AL2-0001-ci-cd-tdd-setup.md",
     "handoff_file": ".agent-context/AL2-0001-HANDOFF-feature-developer.md"
   },
   "test-runner": {
