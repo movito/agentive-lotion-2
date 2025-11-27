@@ -56,7 +56,8 @@ get_agent_files() {
     # Get all agent files (excluding templates and operational files)
     local all_files=$(find "$CLAUDE_AGENTS_DIR" -name "*.md" \
         -not -name "OPERATIONAL-RULES.md" \
-        -not -name "AGENT-TEMPLATE.md")
+        -not -name "AGENT-TEMPLATE.md" \
+        -not -name "TASK-STARTER-TEMPLATE.md")
 
     # Output files in custom order
     for agent_name in "${agent_order[@]}"; do

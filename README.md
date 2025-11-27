@@ -376,6 +376,36 @@ your-project/
 
 ---
 
+## Pulling Updates from the Starter Kit
+
+As we improve the starter kit, you can pull updates into your project:
+
+```bash
+# Add the starter kit as upstream (one time)
+git remote add upstream https://github.com/movito/agentive-starter-kit.git
+
+# Pull updates
+git fetch upstream
+git merge upstream/main
+```
+
+**How merging works:**
+- Files **only you changed** → your changes preserved
+- Files **only upstream changed** → you get the updates  
+- Files **both changed** → merge conflict (you decide what to keep)
+
+**Best practices for easy updates:**
+- Keep customizations in **new files** when possible (new agents, new docs)
+- Avoid heavily editing core starter kit files
+- When you do edit core files, the merge is usually straightforward
+
+**Your stuff stays safe:**
+- Custom agents you created
+- Your `.env` configuration (gitignored)
+- Project-specific docs and tasks
+
+---
+
 ## Contributing
 
 This starter kit is extracted from real development practices. Contributions welcome:
