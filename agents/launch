@@ -30,8 +30,8 @@ parse_frontmatter() {
     # Extract frontmatter between --- markers
     local frontmatter=$(sed -n '/^---$/,/^---$/p' "$file" | sed '1d;$d')
 
-    # Get value for key
-    echo "$frontmatter" | grep "^$key:" | sed "s/^$key:[[:space:]]*//" | tr -d '"'
+    # Get value for key (strip comments and trim whitespace)
+    echo "$frontmatter" | grep "^$key:" | sed "s/^$key:[[:space:]]*//" | sed 's/#.*//' | tr -d '"' | xargs
 }
 
 # Get list of available agent files with custom ordering
