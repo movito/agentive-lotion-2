@@ -62,7 +62,8 @@ select = ["E", "F", "I", "N", "W"]
 ignore = ["E203"]  # W503 is not a valid ruff rule
 
 [tool.coverage.run]
-source = ["backend"]
+# Source will be added when backend/ is created in Phase 1
+# source = ["backend"]
 omit = ["tests/*", "venv/*"]
 
 [tool.coverage.report]
