@@ -27,9 +27,8 @@ parse_frontmatter() {
     local file="$1"
     local key="$2"
 
-    # Extract only the first frontmatter block (lines 1 to second ---)
-    # This prevents parsing template YAML blocks later in the file
-    local frontmatter=$(awk '/^---$/{if(++count==2) exit} count==1' "$file" | grep -v '^---$')
+    # Extract frontmatter between --- markers
+    local frontmatter=$(sed -n '/^---$/,/^---$/p' "$file" | sed '1d;$d')
 
     # Get value for key
     echo "$frontmatter" | grep "^$key:" | sed "s/^$key:[[:space:]]*//" | tr -d '"'
@@ -37,12 +36,16 @@ parse_frontmatter() {
 
 # Get list of available agent files with custom ordering
 get_agent_files() {
-    # Define custom agent ordering (in preferred display order)
+    # =========================================================================
+    # AGENT DISPLAY ORDER
+    # Edit this array to change the order agents appear in the menu.
+    # Agents not listed here will appear at the end alphabetically.
+    # =========================================================================
     local agent_order=(
         "planner"
-        "tycho"
         "feature-developer"
         "test-runner"
+        "tycho"
         "powertest-runner"
         "document-reviewer"
         "security-reviewer"
@@ -53,8 +56,7 @@ get_agent_files() {
     # Get all agent files (excluding templates and operational files)
     local all_files=$(find "$CLAUDE_AGENTS_DIR" -name "*.md" \
         -not -name "OPERATIONAL-RULES.md" \
-        -not -name "AGENT-TEMPLATE.md" \
-        -not -name "TASK-STARTER-TEMPLATE.md")
+        -not -name "AGENT-TEMPLATE.md")
 
     # Output files in custom order
     for agent_name in "${agent_order[@]}"; do
@@ -121,19 +123,13 @@ list_agents() {
     for agent_file in "${agent_files[@]}"; do
         local name=$(get_agent_name "$agent_file")
         local description=$(get_agent_description "$agent_file")
-        local model=$(get_agent_model "$agent_file")
-
-        # Simple icon based on agent type
-        local icon="⚡"
-        [[ "$name" == *"planner"* ]] && icon="👓"
-        [[ "$name" == *"tycho"* ]] && icon="🧭"
-        [[ "$name" == *"test"* ]] && icon="🧪"
-        [[ "$name" == *"document"* ]] && icon="📄"
-        [[ "$name" == *"security"* ]] && icon="🔒"
+        local icon=$(get_agent_icon "$name")
 
         echo -e "  ${YELLOW}$counter${NC}) $icon $name - $description"
         counter=$((counter + 1))
     done
+    echo
+    echo -e "  ${BLUE}Tip:${NC} To reorder or customize agents, edit ${YELLOW}agents/launch${NC}"
     echo
 }
 
@@ -157,13 +153,18 @@ needs_serena_activation() {
         return 1  # false - Serena not available
     fi
 
-    # Agents that use Serena for code navigation
+    # =========================================================================
+    # SERENA-ENABLED AGENTS
+    # These agents get automatic Serena activation for semantic code navigation.
+    # Add agent names here if they work with code and would benefit from Serena.
+    # =========================================================================
     local serena_agents=(
         "planner"
-        "tycho"
         "feature-developer"
         "test-runner"
+        "tycho"
         "powertest-runner"
+        "security-reviewer"
     )
 
     for serena_agent in "${serena_agents[@]}"; do
@@ -196,7 +197,6 @@ launch_agent() {
     echo -e "${BLUE}Model: ${NC}$model"
 
     # Check Serena status for code-focused agents
-    local serena_agents=("planner" "tycho" "feature-developer" "test-runner" "powertest-runner")
     local is_code_agent=false
     for sa in "${serena_agents[@]}"; do
         [[ "$name" == "$sa" ]] && is_code_agent=true && break
@@ -224,6 +224,21 @@ launch_agent() {
     fi
 }
 
+# Get icon for agent name
+get_agent_icon() {
+    local name="$1"
+    local icon="⚡"
+    [[ "$name" == *"planner"* ]] && icon="📋"
+    [[ "$name" == *"tycho"* ]] && icon="🧭"
+    [[ "$name" == *"feature"* ]] && icon="🛠️"
+    [[ "$name" == *"test"* ]] && icon="🧪"
+    [[ "$name" == *"document"* ]] && icon="📄"
+    [[ "$name" == *"security"* ]] && icon="🔒"
+    [[ "$name" == *"ci-checker"* ]] && icon="✅"
+    [[ "$name" == *"agent-creator"* ]] && icon="🤖"
+    echo "$icon"
+}
+
 # Interactive agent selection
 interactive_select() {
     local agent_files=($(get_agent_files))
@@ -232,15 +247,7 @@ interactive_select() {
     local options=()
     for agent_file in "${agent_files[@]}"; do
         local name=$(get_agent_name "$agent_file")
-
-        # Simple icon based on agent type
-        local icon="⚡"
-        [[ "$name" == *"planner"* ]] && icon="👓"
-        [[ "$name" == *"tycho"* ]] && icon="🧭"
-        [[ "$name" == *"test"* ]] && icon="🧪"
-        [[ "$name" == *"document"* ]] && icon="📄"
-        [[ "$name" == *"security"* ]] && icon="🔒"
-
+        local icon=$(get_agent_icon "$name")
         options+=("$icon $name")
     done
 

@@ -1,7 +1,7 @@
 ---
 name: [agent-name]
 description: [One sentence description of agent role and primary responsibility]
-# model: claude-sonnet-4-5-20250929  # Use claude-3-5-haiku-20241022 for simpler/faster tasks  # Uncomment and set your preferred model
+model: claude-sonnet-4-5-20250514  # You can change this - see Model Selection Guide at bottom
 tools:
   - Read
   - Write
@@ -190,6 +190,22 @@ This will help me proceed without further evaluation loops."
 
 ---
 
-**Template Version**: 1.0.0
-**Last Updated**: 2025-11-06
-**Project**: thematic-cuts
+## Model Selection Guide
+
+Choose your model based on task complexity:
+
+| Model | Cost | Best For |
+|-------|------|----------|
+| **Opus 4.5** | $5/$25 per 1M tokens | Complex planning, code generation, security analysis |
+| **Sonnet 4.5** | $3/$15 per 1M tokens | Documentation, testing, agent creation, day-to-day tasks |
+| **Haiku 4.5** | $1/$5 per 1M tokens | CI checks, simple validation, fast operations |
+
+**Note**: Opus 4.5 uses ~50% fewer tokens for the same quality output, often making total cost similar to Sonnet despite higher per-token price.
+
+To set a model, uncomment and edit the `model:` line in the frontmatter above.
+
+---
+
+**Template Version**: 1.1.0
+**Last Updated**: 2025-11-27
+**Project**: agentive-starter-kit

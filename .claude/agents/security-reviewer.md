@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Security analysis and hardening specialist
-# model: claude-sonnet-4-5-20250929  # Uncomment and set your preferred model
+model: claude-opus-4-5-20250514  # You can change this or comment out to use default
 tools:
   - Read
   - Grep

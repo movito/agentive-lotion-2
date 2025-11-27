@@ -1,17 +1,9 @@
 {
-  "rem": {
-    "status": "completed",
-    "current_task": "Architecture Planning",
-    "task_started": "2025-11-27",
-    "brief_note": "✅ COMPLETE: Architectural vision, 6 ADRs, system design, Phase 1 breakdown (20 tasks)",
-    "details_link": ".agent-context/2025-11-27-ARCHITECTURAL-VISION.md",
-    "handoff_file": null
-  },
-  "coordinator": {
+  "planner": {
     "status": "idle",
     "current_task": null,
     "task_started": null,
-    "brief_note": "Ready for task creation and evaluation",
+    "brief_note": "Ready for planning and coordination",
     "details_link": null
   },
   "feature-developer": {

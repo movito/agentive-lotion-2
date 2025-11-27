@@ -12,7 +12,7 @@ A complete starter kit for **agentive development** - a methodology for coordina
 
 This kit provides:
 
-- **10+ Specialized Agents** - Coordinator, feature-developer, test-runner, and more
+- **10+ Specialized Agents** - Planner, feature-developer, test-runner, and more
 - **Task Management System** - Linear-compatible workflow with numbered folders
 - **Adversarial Evaluation** - GPT-4o reviews your plans before implementation
 - **Serena Integration** - Semantic code navigation across multiple languages
@@ -50,7 +50,7 @@ Before you begin, verify you have the following:
 | Requirement | Purpose | How to Get |
 |-------------|---------|------------|
 | **OpenAI API Key** | Adversarial evaluation (~$0.04/eval) | [platform.openai.com](https://platform.openai.com/api-keys) |
-| **Linear API Key** | Task sync with Linear issues | [linear.app/settings/api](https://linear.app/settings/api) |
+| **Linear Integration** | Task sync with Linear issues | See [Linear Integration](#linear-integration) section below |
 
 ### Quick Preflight Check
 
@@ -93,7 +93,7 @@ Then open the folder in your IDE (VS Code, Cursor, etc.).
 
 ### 3. Follow Interactive Setup
 
-`rem` (your project coordinator) will guide you through:
+`planner` (your project coordinator) will guide you through:
 
 1. **Project Configuration** - Name your project
 2. **Language Selection** - Configure Serena for your languages
@@ -111,8 +111,8 @@ Setup takes approximately 5-10 minutes.
 
 | Agent | Purpose |
 |-------|---------|
-| `rem` | Primary project coordinator, handles onboarding |
-| `coordinator` | High-level task coordination |
+| `planner` | Helps you plan, tracks work, keeps things on track |
+
 | `tycho` | Day-to-day project management |
 | `feature-developer` | Implementation tasks |
 | `test-runner` | TDD and testing |
@@ -172,12 +172,12 @@ Reduces token consumption by 70-98% for code navigation tasks.
 Copy `.env.template` to `.env` and configure:
 
 ```bash
-# Required for evaluation
+# For adversarial evaluation (optional)
 OPENAI_API_KEY=sk-your-key
 
-# Optional - for Linear task sync
+# For Linear task sync (optional) - see Linear Integration section
 LINEAR_API_KEY=lin_api_your-key
-LINEAR_TEAM_ID=your-team
+LINEAR_TEAM_ID=ABC
 ```
 
 ### Serena (`.serena/project.yml`)
@@ -197,6 +197,65 @@ Copy `.adversarial/config.yml.template` to `.adversarial/config.yml`.
 
 ---
 
+## Linear Integration
+
+The starter kit includes a built-in task management system that helps agents do better work and helps you track progress. Tasks are stored as markdown files in `delegation/tasks/` folders.
+
+**You can optionally sync these tasks with [Linear](https://linear.app)** for team visibility and project management. This is more involved than just adding an API key.
+
+### Setting Up Linear (Optional)
+
+**1. Create a Linear account**
+
+Sign up at [linear.app](https://linear.app) if you don't have an account.
+
+**2. Create a new team**
+
+Go to Settings → Teams → [Create new team](https://linear.app/settings/new-team)
+
+**Important:** Use the same identifier for your Linear team as you use for task prefixes in the codebase. For example:
+- If your task files are named `ABC-0001-feature.md`, `ABC-0002-bugfix.md`
+- Set your Linear team identifier to `ABC`
+
+This keeps task IDs consistent between your codebase and Linear.
+
+**3. Get your Linear API key**
+
+Go to Settings → API → [API settings](https://linear.app/settings/api)
+
+The page shows "OAuth applications" and "Webhooks" - **click "Webhooks"** on the left sidebar to find Personal API keys.
+
+- Scroll down to "Personal API keys"
+- Click "Create new API key"
+- Give it a name (e.g., "agentive-starter-kit")
+- Copy the key (starts with `lin_api_`)
+
+**4. Get your Team ID**
+
+Your Team ID is the identifier you chose in step 2 (e.g., `ABC`).
+
+**5. Configure your `.env` file**
+
+```bash
+LINEAR_API_KEY=lin_api_your-key-here
+LINEAR_TEAM_ID=ABC
+```
+
+### How Linear Sync Works
+
+When configured, the task system:
+- Syncs task files in `delegation/tasks/` folders to Linear issues
+- Maps folder locations to Linear statuses (e.g., `2-todo/` → "Todo")
+- Updates both directions: move a file → Linear updates, change Linear → file moves
+
+See `docs/LINEAR-SYNC-BEHAVIOR.md` for detailed sync behavior.
+
+### Without Linear
+
+Tasks work fine without Linear - they're just markdown files. Agents can create, track, and complete tasks using the folder structure alone. Linear adds team visibility and integrations, but isn't required.
+
+---
+
 ## Usage
 
 ### First-Time Setup
@@ -213,17 +272,26 @@ Copy `.adversarial/config.yml.template` to `.adversarial/config.yml`.
 ./agents/launch
 
 # Launch specific agent
-./agents/launch rem
+./agents/launch planner
 ./agents/launch feature-developer
 ./agents/launch test-runner
 ```
 
 ### Creating Tasks
 
+**The easy way:** Just tell `planner` what you want to build. The agent will create and manage tasks for you.
+
+```bash
+./agents/launch planner
+# Then: "I want to add user authentication to my app"
+```
+
+**Manual task creation** (if you prefer):
+
 1. Copy task template: `delegation/tasks/9-reference/templates/task-template.md`
 2. Create task file: `delegation/tasks/2-todo/TASK-0001-my-task.md`
 3. Run evaluation: `adversarial evaluate delegation/tasks/2-todo/TASK-0001-my-task.md`
-4. Assign to agent via `rem` or `coordinator`
+4. Assign to agent via `planner`
 
 ### Running Tests
 
@@ -299,7 +367,7 @@ your-project/
 ### Multi-Model Collaboration
 - Claude for implementation
 - GPT-4o for evaluation/critique
-- Coordinator for orchestration
+- Planner for orchestration
 
 ### Context Management
 - Documentation is infrastructure
