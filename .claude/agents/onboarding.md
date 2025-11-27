@@ -263,16 +263,16 @@ Note: Adversarial Evaluation and Linear Task Sync auto-enable if their API keys 
 
 **The starter kit includes these agents:**
 
-Core:
-- rem - Project coordinator (manages tasks, runs evaluations)
-- feature-developer - Implementation specialist
-- test-runner - TDD and testing
+// Core team //
+- rem: Helps you plan, tracks ongoing work, and keeps things on track
+- feature-developer: Writes code for features in your project
+- test-runner: Handles testing and verification of code
 
-Support:
-- document-reviewer - Documentation QA
-- security-reviewer - Security analysis
-- ci-checker - CI/CD verification
-- agent-creator - Create custom agents
+// Support team //
+- document-reviewer: Writes and manages documentation
+- security-reviewer: Checks for security issues
+- ci-checker: Verifies that CI/CD tests pass (automated tests that run when you push code)
+- agent-creator: Helps you create new, specialized agents
 
 **Would you like to create a project-specific agent now?**
 1. Yes, help me create one
