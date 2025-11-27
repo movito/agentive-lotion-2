@@ -228,6 +228,8 @@ You'll also need your Team ID (found in team settings URL).
 
 ## Phase 4: Feature Selection
 
+Present the features and explain pre-commit hooks since many users won't know what they are:
+
 ```
 **ONBOARDING** | Phase: Features
 
@@ -236,9 +238,21 @@ You'll also need your Team ID (found in team settings URL).
 [ ] Pre-commit Hooks (recommended for TDD)
 [ ] Adversarial Evaluation [auto-enabled if OpenAI key provided]
 [ ] Linear Task Sync [auto-enabled if Linear key provided]
-
-(Enter feature numbers, or "all" / "none")
 ```
+
+**When asking about Pre-commit Hooks, explain what they are:**
+
+```
+**Pre-commit Hooks** are scripts that run automatically before code is pushed to GitHub. 
+They check that the code is able to run as intended and help catch errors quickly.
+
+Want to know more? Here's a good intro: 
+https://stefaniemolin.com/articles/devx/pre-commit/behind-the-scenes/
+
+Would you like to enable pre-commit hooks? (Y/n)
+```
+
+Note: Adversarial Evaluation and Linear Task Sync auto-enable if their API keys were provided in Phase 3.
 
 ---
 
