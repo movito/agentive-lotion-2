@@ -76,26 +76,37 @@ After user responds:
 - Note selected languages for Serena configuration
 - Proceed to Serena setup
 
-### Serena Setup (Semantic Code Navigation)
+### Serena Setup (Semantic Code Navigation) - Optional
 
-After language selection, set up Serena:
+Ask the user if they want to set up Serena:
 
 ```
 **ONBOARDING** | Phase: Serena Setup
 
-**Setting up Serena for semantic code navigation...**
+**Would you like to set up Serena for semantic code navigation?**
 
 Serena provides intelligent code understanding:
 - Go to definition / Find references
-- Symbol search across codebase
-- Smart code editing
+- Symbol search across codebase  
+- Smart code editing (70-98% token savings)
 
-Running setup script...
+This is optional - agents work without it, but code navigation is limited.
+
+Set up Serena now? (Y/n)
 ```
 
-**Run the setup script:**
+**If user says Y:**
+
+Run the setup script:
 ```bash
 ./.serena/setup-serena.sh "[project-name]"
+```
+
+**Important: Warn about browser popup:**
+```
+**Note:** You may see a browser window open with a "can't connect" error.
+This is normal - just close it. Serena starts when an agent first uses it,
+not immediately after setup.
 ```
 
 The script will:
@@ -104,17 +115,29 @@ The script will:
 3. Create `.serena/project.yml` from template
 
 **Then update project.yml with selected languages:**
-```bash
-# Edit .serena/project.yml to enable selected languages
-# Uncomment the languages the user selected in Phase 2
+Edit `.serena/project.yml` to enable the languages the user selected in Phase 2.
+
+**After setup, tell the user:**
+```
+**Serena configured!**
+
+Languages enabled: [Python, TypeScript, ...]
+
+**Important next step:** You'll need to restart Claude Code (quit and reopen)
+for Serena to be available. Agents will then auto-activate it.
+
+If you saw a browser error, that's normal - just close it.
 ```
 
-**Verify Serena is configured:**
-```bash
-claude mcp list | grep serena
+**If user says N:**
+```
+No problem! You can set up Serena later by running:
+  ./.serena/setup-serena.sh
+
+Agents will work without it, just with limited code navigation.
 ```
 
-If setup fails, explain:
+**If setup fails** (uvx/pipx not found):
 ```
 Serena setup requires either uvx or pipx.
 
@@ -124,15 +147,9 @@ To install uvx (recommended):
 To install pipx:
   brew install pipx && pipx ensurepath
 
-Then run: ./.serena/setup-serena.sh
-```
+Then run: ./.serena/setup-serena.sh [project-name]
 
-**After successful setup:**
-```
-**Serena configured successfully!**
-
-Languages enabled: [Python, TypeScript, ...]
-Agents will auto-activate Serena for code navigation.
+Or skip Serena for now - you can set it up later.
 ```
 
 ---

@@ -120,14 +120,13 @@ fi
 
 echo
 
-# Step 4: Verify installation
-echo -e "${BLUE}Step 4: Verifying installation...${NC}"
+# Step 4: Verify configuration (NOT the running server)
+echo -e "${BLUE}Step 4: Verifying configuration...${NC}"
 
 if claude mcp list 2>/dev/null | grep -q "serena"; then
     echo -e "  ${GREEN}✓${NC} Serena MCP server configured"
 else
-    echo -e "  ${RED}✗${NC} Serena MCP not found in configuration"
-    echo -e "    Try running: claude mcp add serena -- uvx --from 'git+https://github.com/oraios/serena' serena-mcp-server"
+    echo -e "  ${YELLOW}!${NC} Serena not yet in MCP list (may need Claude Code restart)"
 fi
 
 if [[ -f "$CONFIG" ]]; then
@@ -138,14 +137,17 @@ fi
 
 echo
 echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"
-echo -e "${GREEN}Serena setup complete!${NC}"
+echo -e "${GREEN}Serena configuration complete!${NC}"
+echo
+echo -e "${YELLOW}Important:${NC} Serena starts when an agent first uses it, not immediately."
+echo -e "If you see a browser error about connecting to localhost, just close it."
 echo
 echo -e "Next steps:"
 echo -e "1. Edit ${CYAN}.serena/project.yml${NC} to enable your languages"
-echo -e "2. Launch an agent: ${CYAN}./agents/launch rem${NC}"
-echo -e "3. Agent will auto-activate Serena for code navigation"
+echo -e "2. ${YELLOW}Restart Claude Code${NC} (quit and reopen, or restart your IDE)"
+echo -e "3. Launch an agent: ${CYAN}./agents/launch rem${NC}"
+echo -e "4. Agent will auto-activate Serena on first use"
 echo
-echo -e "To verify Serena is working, run:"
-echo -e "  ${CYAN}claude mcp list${NC}"
+echo -e "To verify Serena is configured:"
+echo -e "  ${CYAN}claude mcp list | grep serena${NC}"
 echo
-echo -e "For more info: ${CYAN}https://oraios.github.io/serena/${NC}"
