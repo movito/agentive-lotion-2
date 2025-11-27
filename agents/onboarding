@@ -32,11 +32,11 @@ PREFLIGHT_SCRIPT="$SCRIPT_DIR/preflight"
 if [[ -x "$PREFLIGHT_SCRIPT" ]]; then
     echo -e "${BLUE}Running preflight checks...${NC}"
     echo
-    
+
     # Run preflight and capture exit code
     "$PREFLIGHT_SCRIPT"
     PREFLIGHT_EXIT=$?
-    
+
     if [[ $PREFLIGHT_EXIT -eq 1 ]]; then
         echo
         echo -e "${RED}Please resolve the issues above before continuing.${NC}"

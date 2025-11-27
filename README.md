@@ -293,15 +293,51 @@ Tasks work fine without Linear - they're just markdown files. Agents can create,
 3. Run evaluation: `adversarial evaluate delegation/tasks/2-todo/TASK-0001-my-task.md`
 4. Assign to agent via `planner`
 
+### Development Setup
+
+```bash
+# 1. Create virtual environment
+python3 -m venv venv
+
+# 2. Activate (Mac/Linux)
+source venv/bin/activate
+
+# 3. Install dependencies
+pip install -e ".[dev]"
+
+# 4. Install pre-commit hooks
+pre-commit install
+
+# 5. Run tests to verify setup
+pytest tests/ -v
+```
+
 ### Running Tests
 
 ```bash
 # Run all tests
 pytest tests/ -v
 
+# Run fast tests only (skip slow tests)
+pytest tests/ -v -m "not slow"
+
 # Run with coverage
-pytest tests/ --cov=your_project --cov-report=term-missing
+pytest tests/ --cov --cov-report=term-missing
 ```
+
+### Pre-commit Hooks
+
+Pre-commit hooks run automatically before each commit:
+- Code formatting (black, isort)
+- Linting (ruff, flake8)
+- Fast tests (pytest)
+
+**Skip pre-commit** (for WIP commits):
+```bash
+SKIP_TESTS=1 git commit -m "WIP: In progress work"
+```
+
+See `docs/TESTING.md` for complete testing guide.
 
 ---
 
@@ -391,7 +427,7 @@ git merge upstream/main
 
 **How merging works:**
 - Files **only you changed** → your changes preserved
-- Files **only upstream changed** → you get the updates  
+- Files **only upstream changed** → you get the updates
 - Files **both changed** → merge conflict (you decide what to keep)
 
 **Best practices for easy updates:**

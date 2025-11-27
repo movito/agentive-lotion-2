@@ -80,7 +80,7 @@ fi
 if command -v git &> /dev/null; then
     GIT_NAME=$(git config user.name 2>/dev/null || echo "")
     GIT_EMAIL=$(git config user.email 2>/dev/null || echo "")
-    
+
     if [[ -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
         check_pass "Git identity: $GIT_NAME <$GIT_EMAIL>"
     else
@@ -133,7 +133,7 @@ if command -v python3 &> /dev/null; then
     PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
     PYTHON_MAJOR=$(echo "$PYTHON_VERSION" | cut -d. -f1)
     PYTHON_MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f2)
-    
+
     if [[ "$PYTHON_MAJOR" -ge 3 && "$PYTHON_MINOR" -ge 9 ]]; then
         check_pass "Python: $PYTHON_VERSION"
     else

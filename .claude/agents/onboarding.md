@@ -39,7 +39,7 @@ Welcome to the Agentive Starter Kit!
 
 I'll help you configure your development environment in about 5 minutes.
 
-I see you're in a folder called **[folder-name]**. 
+I see you're in a folder called **[folder-name]**.
 Would you like to use this as your project name? (Y/n)
 
 (The project name is used in configurations and task prefixes, e.g., "my-app" → MYAPP-0001)
@@ -87,7 +87,7 @@ Ask the user if they want to set up Serena:
 
 Serena provides intelligent code understanding:
 - Go to definition / Find references
-- Symbol search across codebase  
+- Symbol search across codebase
 - Smart code editing (70-98% token savings)
 
 This is optional - agents work without it, but code navigation is limited.
@@ -255,10 +255,10 @@ Present the features and explain pre-commit hooks since many users won't know wh
 **When asking about Pre-commit Hooks, explain what they are:**
 
 ```
-**Pre-commit Hooks** are scripts that run automatically before code is pushed to GitHub. 
+**Pre-commit Hooks** are scripts that run automatically before code is pushed to GitHub.
 They check that the code is able to run as intended and help catch errors quickly.
 
-Want to know more? Here's a good intro: 
+Want to know more? Here's a good intro:
 https://stefaniemolin.com/articles/devx/pre-commit/behind-the-scenes/
 
 Would you like to enable pre-commit hooks? (Y/n)
