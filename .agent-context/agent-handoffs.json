@@ -3,9 +3,10 @@
     "status": "completed",
     "current_task": "AL2-0001",
     "task_started": "2025-11-27",
-    "brief_note": "✅ COMPLETE: AL2-0001 evaluated and approved (3 rounds, coordinator override). Ready for feature-developer assignment.",
+    "brief_note": "✅ COMPLETE: AL2-0001 evaluated and approved (3 rounds, coordinator override). Ready for feature-developer assignment. Previous session: TDD seed task, onboarding UX improvements.",
     "details_link": "delegation/tasks/2-todo/AL2-0001-ci-cd-tdd-setup.md",
-    "handoff_file": ".agent-context/AL2-0001-HANDOFF-feature-developer.md"
+    "handoff_file": ".agent-context/AL2-0001-HANDOFF-feature-developer.md",
+    "previous_session": ".agent-context/2025-11-27-SESSION-HANDOVER.md"
   },
   "feature-developer": {
     "status": "assigned",

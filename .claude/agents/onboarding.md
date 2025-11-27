@@ -365,34 +365,57 @@ Now create the configuration files:
 
 ### Create First Task: TDD Infrastructure Setup
 
-**IMPORTANT**: Create a seed task to guide the planner toward TDD practices from day one.
+**IMPORTANT**: Create a seed task to establish TDD practices from day one.
 
 1. Copy the template:
 ```bash
 cp delegation/tasks/9-reference/templates/SETUP-0001-testing-infrastructure.md \
-   delegation/tasks/2-todo/[PREFIX]-0001-testing-infrastructure.md
+   delegation/tasks/2-todo/[PREFIX]-0001-tdd-infrastructure.md
 ```
 
-2. Update the task file:
-   - Replace `SETUP-0001` with `[PREFIX]-0001` (using the task prefix from Phase 1)
-   - Replace `[DATE]` with today's date
-   - Adjust language-specific sections based on languages selected in Phase 2
+2. **Customize the task file** (required replacements):
 
-3. Tell the user:
+| Placeholder | Replace With | Example |
+|-------------|--------------|---------|
+| `[PREFIX]` | Task prefix from Phase 1 | `AL2`, `PROJ` |
+| `[DATE]` | Today's date | `2025-11-27` |
+| `[PROJECT-NAME]` | Project name from Phase 1 | `agentive-lotion-2` |
+
+3. **Customize for selected languages** (Phase 2):
+
+**If Python selected**:
+- Keep all Python sections (pyproject.toml, pytest, etc.)
+- Update dependencies in pyproject.toml based on project needs
+
+**If TypeScript/JavaScript selected**:
+- Add vitest/jest configuration section
+- Add frontend test setup to "Should Have" requirements
+
+**If both Python + TypeScript**:
+- Keep Python as primary (backend)
+- Add "Frontend Testing (Phase 1)" section for TypeScript
+
+4. **Remove the HTML comment block** at the top (lines 3-10) - it's instructions for you, not the task.
+
+5. Tell the user:
 ```
 **First Task Created!**
 
-I've created your first task: `[PREFIX]-0001: Set Up Testing Infrastructure`
+I've created your first task: `[PREFIX]-0001: CI/CD and TDD Infrastructure Setup`
 
-This task guides you through setting up:
-- Test framework (pytest/Jest/Vitest)
-- CI/CD pipeline (GitHub Actions)
-- Pre-commit hooks
+This task is assigned to **feature-developer** (not planner) and includes:
+- Creating pyproject.toml for Python configuration
+- Setting up pytest with coverage
+- Adapting the existing pre-commit hooks
+- Creating GitHub Actions CI workflow
+- Writing a smoke test to verify project structure
 
-When you start working with the planner agent, it will see this task
-and help you complete it before writing any feature code.
+**Important**: This task blocks all feature development. The planner will
+assign it to feature-developer as the very first implementation work.
 
-This ensures your project follows Test-Driven Development (TDD) from day one!
+It leverages existing starter kit assets:
+- `tests/test_template.py` - Test pattern reference
+- `.pre-commit-config.yaml` - Adapt, don't replace
 ```
 
 ---
@@ -500,9 +523,12 @@ Configuration Summary:
 
 **Next Steps:**
 1. Run `./agents/launch planner` to start working with your planner
-2. Planner will see your first task: **[PREFIX]-0001: Set Up Testing Infrastructure**
-3. Complete that task first - it sets up TDD practices for your project
-4. Then tell planner what you want to build!
+2. Planner will see your first task: **[PREFIX]-0001: CI/CD and TDD Infrastructure**
+3. Planner assigns it to **feature-developer** (it's implementation work)
+4. Once TDD infrastructure is complete, you're ready for feature development!
+
+**Tip**: The first task leverages existing starter kit files. Don't recreate
+what already exists - adapt it for your project.
 
 Happy building!
 ```
