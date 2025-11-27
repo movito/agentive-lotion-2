@@ -50,7 +50,7 @@ Before you begin, verify you have the following:
 | Requirement | Purpose | How to Get |
 |-------------|---------|------------|
 | **OpenAI API Key** | Adversarial evaluation (~$0.04/eval) | [platform.openai.com](https://platform.openai.com/api-keys) |
-| **Linear API Key** | Task sync with Linear issues | [linear.app/settings/api](https://linear.app/settings/api) |
+| **Linear Integration** | Task sync with Linear issues | See [Linear Integration](#linear-integration) section below |
 
 ### Quick Preflight Check
 
@@ -172,12 +172,12 @@ Reduces token consumption by 70-98% for code navigation tasks.
 Copy `.env.template` to `.env` and configure:
 
 ```bash
-# Required for evaluation
+# For adversarial evaluation (optional)
 OPENAI_API_KEY=sk-your-key
 
-# Optional - for Linear task sync
+# For Linear task sync (optional) - see Linear Integration section
 LINEAR_API_KEY=lin_api_your-key
-LINEAR_TEAM_ID=your-team
+LINEAR_TEAM_ID=ABC
 ```
 
 ### Serena (`.serena/project.yml`)
@@ -194,6 +194,60 @@ languages:
 ### Adversarial (`.adversarial/config.yml`)
 
 Copy `.adversarial/config.yml.template` to `.adversarial/config.yml`.
+
+---
+
+## Linear Integration
+
+The starter kit includes a built-in task management system that helps agents do better work and helps you track progress. Tasks are stored as markdown files in `delegation/tasks/` folders.
+
+**You can optionally sync these tasks with [Linear](https://linear.app)** for team visibility and project management. This is more involved than just adding an API key.
+
+### Setting Up Linear (Optional)
+
+**1. Create a Linear account**
+
+Sign up at [linear.app](https://linear.app) if you don't have an account.
+
+**2. Create a new team**
+
+Go to Settings → Teams → [Create new team](https://linear.app/settings/new-team)
+
+**Important:** Use the same identifier for your Linear team as you use for task prefixes in the codebase. For example:
+- If your task files are named `ABC-0001-feature.md`, `ABC-0002-bugfix.md`
+- Set your Linear team identifier to `ABC`
+
+This keeps task IDs consistent between your codebase and Linear.
+
+**3. Get your Linear API key**
+
+Go to Settings → API → [Personal API keys](https://linear.app/settings/api)
+- Click "Create new API key"
+- Copy the key (starts with `lin_api_`)
+
+**4. Get your Team ID**
+
+Your Team ID is the identifier you chose in step 2 (e.g., `ABC`).
+
+**5. Configure your `.env` file**
+
+```bash
+LINEAR_API_KEY=lin_api_your-key-here
+LINEAR_TEAM_ID=ABC
+```
+
+### How Linear Sync Works
+
+When configured, the task system:
+- Syncs task files in `delegation/tasks/` folders to Linear issues
+- Maps folder locations to Linear statuses (e.g., `2-todo/` → "Todo")
+- Updates both directions: move a file → Linear updates, change Linear → file moves
+
+See `docs/LINEAR-SYNC-BEHAVIOR.md` for detailed sync behavior.
+
+### Without Linear
+
+Tasks work fine without Linear - they're just markdown files. Agents can create, track, and complete tasks using the folder structure alone. Linear adds team visibility and integrations, but isn't required.
 
 ---
 
