@@ -73,23 +73,24 @@ echo
 # Step 2: Add Serena to Claude Code MCP configuration
 echo -e "${BLUE}Step 2: Configuring Claude Code MCP...${NC}"
 
-# Check if Serena is already configured
+# Check if Serena is already configured at user level
 if claude mcp list 2>/dev/null | grep -q "serena"; then
     echo -e "  ${YELLOW}!${NC} Serena already configured in Claude Code"
 else
-    # Add Serena MCP server
+    # Add Serena MCP server with --scope user for global availability
+    # This ensures Serena is available to ALL projects, not just this one
     if [[ "$HAS_UVX" == true ]]; then
-        echo -e "  Adding Serena via uvx..."
-        claude mcp add serena -- uvx --from "git+https://github.com/oraios/serena" serena-mcp-server
+        echo -e "  Adding Serena via uvx (global scope)..."
+        claude mcp add --scope user serena -- uvx --from "git+https://github.com/oraios/serena" serena-mcp-server
     else
-        echo -e "  Adding Serena via pipx..."
+        echo -e "  Adding Serena via pipx (global scope)..."
         # First install with pipx if needed
         if ! pipx list | grep -q serena; then
             pipx install "git+https://github.com/oraios/serena"
         fi
-        claude mcp add serena -- serena-mcp-server
+        claude mcp add --scope user serena -- serena-mcp-server
     fi
-    echo -e "  ${GREEN}✓${NC} Serena added to Claude Code MCP"
+    echo -e "  ${GREEN}✓${NC} Serena added to Claude Code MCP (user-level, available to all projects)"
 fi
 
 echo
