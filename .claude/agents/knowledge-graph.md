@@ -1,7 +1,7 @@
 ---
 name: knowledge-graph
 description: Node relationships, knowledge connections, and graph logic specialist
-# model: claude-sonnet-4-20250514  # Uncomment and set your preferred model
+# model: claude-opus-4-5-20250514  # Uncomment and set your preferred model
 tools:
   - Read
   - Write

@@ -1,7 +1,7 @@
 ---
 name: interaction-designer
 description: UX patterns, canvas gestures, and interaction workflow specialist
-# model: claude-sonnet-4-20250514  # Uncomment and set your preferred model
+# model: claude-opus-4-5-20250514  # Uncomment and set your preferred model
 tools:
   - Read
   - Write

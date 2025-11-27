@@ -1,7 +1,7 @@
 ---
 name: canvas-architect
 description: TLdraw integration, visual layouts, and canvas interaction specialist
-# model: claude-sonnet-4-20250514  # Uncomment and set your preferred model
+# model: claude-opus-4-5-20250514  # Uncomment and set your preferred model
 tools:
   - Read
   - Write

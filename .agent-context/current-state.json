@@ -15,9 +15,27 @@
   "metrics": {
     "tasks_created": 0,
     "tasks_completed": 0,
-    "agents_active": 0,
+    "agents_active": 1,
     "test_pass_rate": null,
     "coverage": null
   },
-  "recent_activity": []
+  "phase": {
+    "current": "Phase 0: Foundation",
+    "status": "complete",
+    "next": "Phase 1: Core Pipeline"
+  },
+  "architecture": {
+    "status": "documented",
+    "adrs_created": 6,
+    "components_defined": 10,
+    "phase_1_tasks": 20
+  },
+  "recent_activity": [
+    {
+      "date": "2025-11-27",
+      "agent": "rem",
+      "activity": "Architecture Planning Complete",
+      "details": "Created architectural vision, 6 ADRs, system components, Phase 1 breakdown (20 tasks)"
+    }
+  ]
 }

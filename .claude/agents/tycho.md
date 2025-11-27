@@ -1,7 +1,7 @@
 ---
 name: tycho
 description: Everyday project coordination and task management specialist
-# model: claude-sonnet-4-5-20250929  # Uncomment and set your preferred model
+# model: claude-opus-4-5-20250514  # Uncomment and set your preferred model
 tools:
   - Read
   - Write
