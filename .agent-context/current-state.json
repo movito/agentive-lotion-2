@@ -1,16 +1,16 @@
 {
   "project": {
-    "name": "${PROJECT_NAME}",
+    "name": "Agentive Lotion 2",
     "version": "0.1.0",
-    "description": "Project description here",
-    "created": "${CREATED_DATE}",
-    "languages": []
+    "description": "PDF to interactive canvas tool using TLdraw, like Heptabase",
+    "created": "2025-11-27",
+    "languages": ["python", "typescript"]
   },
   "configuration": {
-    "serena_enabled": false,
-    "evaluator_enabled": false,
-    "linear_enabled": false,
-    "task_prefix": "TASK"
+    "serena_enabled": true,
+    "evaluator_enabled": true,
+    "linear_enabled": true,
+    "task_prefix": "AL2"
   },
   "metrics": {
     "tasks_created": 0,
