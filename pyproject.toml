@@ -3,7 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-# No Python packages yet - will be added in Phase 1 when backend/ is created
+# This section has no Python packages yet. They will be added in Phase 1 when backend/ is created.
+# When you create packages, add them to this section, e.g. packages = ["your_project"].
+# Note: we have set this section up this way to prevent auto-discovery of non-Python directories such as agents/, delegation/, etc.
 packages = []
 
 [project]
