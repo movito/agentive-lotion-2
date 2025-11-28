@@ -3,7 +3,7 @@
 **Created**: 2025-11-01
 **Updated**: 2025-11-14 (added proofreading)
 **Purpose**: Complete guide to using the adversarial evaluation and proofreading workflow with GPT-4o
-**Audience**: All agents (especially Coordinator)
+**Audience**: All agents (especially Planner)
 **Tool**: `adversarial` CLI
 **Evaluator**: GPT-4o via Aider (external agent)
 
@@ -161,13 +161,13 @@ Skip `proofread` for:
 
 ### Step-by-Step Process:
 
-**1. Coordinator creates task specification**
+**1. Planner creates task specification**
 ```bash
 # Create in delegation/tasks/active/
 delegation/tasks/active/TASK-2025-XXXX-description.md
 ```
 
-**2. Coordinator runs evaluation directly via Bash tool**
+**2. Planner runs evaluation directly via Bash tool**
 ```bash
 # For files < 500 lines:
 adversarial evaluate delegation/tasks/active/TASK-2025-XXXX-description.md
@@ -179,19 +179,19 @@ echo y | adversarial evaluate delegation/tasks/active/TASK-2025-XXXX-description
 - GPT-4o analyzes plan using evaluation criteria
 - Output saved to `.adversarial/logs/TASK-2025-XXXX-PLAN-EVALUATION.md`
 
-**3. Coordinator reads GPT-4o evaluation output**
+**3. Planner reads GPT-4o evaluation output**
 ```bash
 # Read evaluation results
 cat .adversarial/logs/TASK-2025-XXXX-PLAN-EVALUATION.md
 ```
 
-**4. Coordinator addresses CRITICAL and HIGH priority feedback**
+**4. Planner addresses CRITICAL and HIGH priority feedback**
 - Fix design flaws identified by GPT-4o
 - Add missing requirements
 - Clarify ambiguous specifications
 - Address risk concerns
 
-**5. Coordinator updates task file based on recommendations**
+**5. Planner updates task file based on recommendations**
 - Edit task specification in `delegation/tasks/active/`
 - Incorporate GPT-4o's suggestions
 - Improve clarity and completeness
@@ -199,9 +199,9 @@ cat .adversarial/logs/TASK-2025-XXXX-PLAN-EVALUATION.md
 **6. If NEEDS_REVISION: Repeat steps 2-5**
 - Optimal: 2-3 evaluation rounds
 - Diminishing returns after 3 rounds
-- Use coordinator judgment
+- Use planner judgment
 
-**7. If APPROVED (or coordinator override): Assign to specialized agent**
+**7. If APPROVED (or planner override): Assign to specialized agent**
 - Create handoff document
 - Update agent-handoffs.json
 - Begin implementation
@@ -218,7 +218,7 @@ cat .adversarial/logs/TASK-2025-XXXX-PLAN-EVALUATION.md
 docs/agentive-development/01-foundation/01-structured-ai-collaboration/concept.md
 ```
 
-**2. Agent or coordinator runs proofreading directly via Bash tool**
+**2. Agent or planner runs proofreading directly via Bash tool**
 ```bash
 # For files < 500 lines:
 adversarial proofread docs/agentive-development/01-foundation/01-structured-ai-collaboration/concept.md
@@ -251,7 +251,7 @@ cat .adversarial/logs/concept-PROOFREADING.md
 **6. If NEEDS_REVISION: Repeat steps 2-5**
 - Optimal: 1-2 proofreading rounds (teaching content stabilizes faster)
 - Diminishing returns after 2 rounds
-- Use agent/coordinator judgment
+- Use agent/planner judgment
 
 **7. If APPROVED: Publish or commit document**
 - Teaching content is ready for readers
@@ -422,10 +422,10 @@ GPT-4o will provide one of three verdicts (applies to both `evaluate` and `proof
 1. ✅ All CRITICAL/HIGH concerns addressed
 2. ✅ GPT-4o asking for implementation-level details (beyond planning scope)
 3. ✅ Diminishing returns on planning detail
-4. ✅ Manual coordinator review approves plan (coordinator override)
+4. ✅ Manual planner review approves plan (planner override)
 
-**Coordinator Override:**
-The coordinator can approve NEEDS_REVISION plans when:
+**Planner Override:**
+The planner can approve NEEDS_REVISION plans when:
 - Remaining issues are implementation-level details
 - GPT-4o is requesting specifics that will be resolved during coding
 - 2-3 rounds completed and plan is "good enough"
@@ -440,7 +440,7 @@ The coordinator can approve NEEDS_REVISION plans when:
 1. ✅ All CRITICAL/HIGH concerns addressed
 2. ✅ Content is clear and accurate
 3. ✅ Diminishing returns on wording tweaks
-4. ✅ Manual agent/coordinator review approves content
+4. ✅ Manual agent/planner review approves content
 
 **Agent Override:**
 Agents can approve NEEDS_REVISION content when:
@@ -492,7 +492,7 @@ Agents can approve NEEDS_REVISION content when:
 - Use `evaluate` for **high-level plan validation** (not implementation details)
 - Address **CRITICAL and HIGH priority feedback** first
 - Focus on **GPT-4o's questions**, not just the verdict
-- Manual **coordinator approval supersedes** GPT-4o verdict when appropriate
+- Manual **planner approval supersedes** GPT-4o verdict when appropriate
 
 **For Proofreading:**
 - Use `proofread` for **teaching content** (not code plans)
@@ -599,7 +599,7 @@ Markdown with structured sections:
 - **Implementation task**: `delegation/tasks/active/THEMATIC-0082-proofreader-evaluator.md`
 
 ### Quick Reference:
-- **Procedural index**: `.agent-context/PROCEDURAL-KNOWLEDGE-INDEX.md` → Coordinator Procedures → Evaluation Workflow
+- **Procedural index**: `.agent-context/PROCEDURAL-KNOWLEDGE-INDEX.md` → Planner Procedures → Evaluation Workflow
 - **Style guide**: `.agent-context/documentation-style-guide.md` (used by proofreader)
 - **Glossary**: `.agent-context/agentive-development-glossary.md` (used by proofreader)
 
@@ -626,5 +626,5 @@ adversarial proofread --help             # Get proofreading help
 ---
 
 **Last Updated**: 2025-11-18
-**Maintained By**: Coordinator and feature-developer agents
+**Maintained By**: Planner and feature-developer agents
 **Questions?** See PROCEDURAL-KNOWLEDGE-INDEX.md or ask user

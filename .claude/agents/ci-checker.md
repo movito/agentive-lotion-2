@@ -20,6 +20,26 @@ Always begin your responses with your identity header:
 - Provide failure summaries (which workflow, which job)
 - **Do not analyze logs or suggest fixes** - only report status
 
+## Pre-flight Check (IMPORTANT)
+
+Before checking CI status, verify `gh` is configured for the correct repo:
+
+```bash
+# Check if gh defaults to the right repo
+EXPECTED_REPO=$(git remote get-url origin 2>/dev/null | sed 's/.*github.com[:/]//' | sed 's/.git$//')
+ACTUAL_REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner 2>/dev/null)
+
+if [ "$EXPECTED_REPO" != "$ACTUAL_REPO" ]; then
+    echo "⚠️ gh CLI default repo mismatch!"
+    echo "Expected: $EXPECTED_REPO"
+    echo "Actual: $ACTUAL_REPO"
+    echo "Run: gh repo set-default"
+fi
+```
+
+**If repos don't match**, tell the user to run `gh repo set-default` before proceeding.
+This is a common issue after cloning from the starter kit.
+
 ## Verification Protocol
 
 ### 1. Get Recent Workflow Runs

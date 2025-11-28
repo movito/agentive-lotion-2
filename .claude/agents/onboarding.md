@@ -482,13 +482,23 @@ git remote remove origin
 gh repo create [project-name] --private --source=. --push
 ```
 
+**IMPORTANT: Set the new repo as default for gh CLI:**
+```bash
+# This ensures gh commands (run list, pr create) work on YOUR repo
+gh repo set-default
+```
+
 Tell the user:
 ```
 ✅ Created repository: https://github.com/[username]/[project-name]
 ✅ Pushed all your code
 ✅ Set as new origin
+✅ Set as default for gh CLI
 
 Your project is now saved to your own GitHub repository!
+
+Note: I've set this repo as the default for `gh` commands.
+This ensures ci-checker and other tools work correctly.
 ```
 
 **If NOT authenticated**, guide them:

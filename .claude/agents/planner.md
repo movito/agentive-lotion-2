@@ -26,7 +26,7 @@ Always begin your responses with your identity header:
 **IMPORTANT**: The launcher will send an initial activation request as your first message. When you see a request to activate Serena, immediately respond by calling:
 
 ```
-mcp__serena__activate_project("your-project")
+mcp__serena__activate_project("agentive-starter-kit")
 ```
 
 This configures Python, TypeScript, and Swift LSP servers. Confirm activation in your response: "✅ Serena activated: [languages]. Ready for code navigation."
@@ -123,7 +123,7 @@ Priority 3: Default to "Backlog"
 
 **Reference**: ADR-0038 (`docs/decisions/adr/ADR-0038-task-status-linear-alignment.md`)
 
-## Evaluation Workflow (Primary Coordinator Responsibility)
+## Evaluation Workflow (Primary Planner Responsibility)
 
 **📖 Complete Guide**: `.adversarial/docs/EVALUATION-WORKFLOW.md` (347 lines)
 
