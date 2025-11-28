@@ -1,0 +1,57 @@
+name: Sync Tasks to Linear
+
+on:
+  push:
+    paths:
+      - 'delegation/tasks/1-backlog/*.md'
+      - 'delegation/tasks/2-todo/*.md'
+      - 'delegation/tasks/3-in-progress/*.md'
+      - 'delegation/tasks/4-in-review/*.md'
+      - 'delegation/tasks/5-done/*.md'
+      - 'delegation/tasks/6-canceled/*.md'
+      - 'delegation/tasks/7-blocked/*.md'
+      - 'scripts/sync_tasks_to_linear.py'
+    branches:
+      - main
+      - develop
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  sync:
+    name: Sync to Linear
+    runs-on: ubuntu-latest
+    # Only run if LINEAR_API_KEY secret is configured
+    if: ${{ secrets.LINEAR_API_KEY != '' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for context
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install gql[requests] requests python-dotenv
+
+      - name: Sync tasks to Linear
+        run: |
+          cd scripts && python sync_tasks_to_linear.py
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          PYTHONPATH: ${{ github.workspace }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Linear Sync Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tasks from numbered workflow folders (1-backlog through 7-blocked) have been synced to Linear." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View your Linear board at: https://linear.app" >> $GITHUB_STEP_SUMMARY

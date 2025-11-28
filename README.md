@@ -246,9 +246,19 @@ LINEAR_TEAM_ID=ABC
 When configured, the task system:
 - Syncs task files in `delegation/tasks/` folders to Linear issues
 - Maps folder locations to Linear statuses (e.g., `2-todo/` → "Todo")
-- Updates both directions: move a file → Linear updates, change Linear → file moves
+- Adds GitHub links to task files in Linear issue descriptions
 
-See `docs/LINEAR-SYNC-BEHAVIOR.md` for detailed sync behavior.
+**Manual sync:**
+```bash
+./project linearsync
+```
+
+**Auto-sync:** Pushing to `main` or `develop` triggers GitHub Actions workflow.
+
+**GitHub Actions setup:**
+1. Go to your repo Settings → Secrets and variables → Actions
+2. Add `LINEAR_API_KEY` secret
+3. Add `LINEAR_TEAM_ID` secret (optional)
 
 ### Without Linear
 
