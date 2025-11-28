@@ -515,10 +515,11 @@ def main():
     for folder in workflow_folders:
         folder_path = base_dir / folder
         if folder_path.exists():
-            # Find TASK-* and ASK-* files
+            # Find TASK-*, ASK-*, and AL2-* files
             task_files = list(folder_path.glob("TASK-*.md"))
             ask_files = list(folder_path.glob("ASK-*.md"))
-            all_files.extend(task_files + ask_files)
+            al2_files = list(folder_path.glob("AL2-*.md"))
+            all_files.extend(task_files + ask_files + al2_files)
 
     print(f"\n📂 Found {len(all_files)} task files across workflow folders\n")
 
