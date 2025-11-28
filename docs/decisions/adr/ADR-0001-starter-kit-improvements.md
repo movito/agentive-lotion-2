@@ -102,6 +102,18 @@ pre-commit run --all-files
 
 **Recommendation**: Use generic naming: "Your Project Name" or "{{PROJECT_NAME}}" placeholder.
 
+### 8. GitHub CLI Defaults to Upstream Repo
+
+**Problem**: After cloning from starter kit, `gh` CLI defaults to the upstream repo instead of the new project's origin.
+
+**Impact**: `gh run list`, `gh pr create`, and other commands fail or operate on wrong repo. CI-checker agent fails to find workflows.
+
+**Recommendation**: Add to onboarding script:
+```bash
+gh repo set-default <new-repo-name>
+```
+Or document this in README Quick Start section.
+
 ## Proposed Starter Kit Changes
 
 ### High Priority (Must Have)
